@@ -1,5 +1,5 @@
 """
-Entrypoint module, in case you use `python -mcombined_gene_caller`.
+Entrypoint module, in case you use `python -m combined_gene_caller`.
 
 
 Why does this file exist, and why __main__? For more info, read:

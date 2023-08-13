@@ -2,13 +2,15 @@
 
 import argparse
 import json
+import logging
 import os
 import re
-import logging
+from importlib.metadata import version
+
 from Bio import SeqIO
 
 
-class Region(object):
+class Region:
     def __init__(self, start, end):
         # if end < start: # assuming that for +/- start always lower
         #    start, end = end, start
@@ -91,8 +93,8 @@ def flatten_regions(regions):
 
 def check_against_gaps(regions, candidates):
     """Given a set of non-overlapping gaps and a list of candidate regions, return the candidates that do not overlap"""
-    regions = sorted(regions, key=lambda l: l.start)
-    candidates = sorted(candidates, key=lambda l: l.start)
+    regions = sorted(regions, key=lambda line: line.start)
+    candidates = sorted(candidates, key=lambda line: line.start)
     selected = []
     r = 0
     if not len(regions):
@@ -184,7 +186,7 @@ def get_regions_fgs(fn):
     # 256	2133	-	1	1.263995	I:	D:
     """
     regions = {}
-    with open(fn, "r") as f:
+    with open(fn) as f:
         for line in f:
             if line[0] == ">":
                 id_ = line.split()[0][1:]
@@ -204,7 +206,7 @@ def get_regions_fgs(fn):
 def get_regions_mask(mask_file):
     """Parse masked region file (i.e. ncRNA)"""
     regions = {}
-    with open(mask_file, "r") as f:
+    with open(mask_file) as f:
         for line in f:
             if line[:1] == "#":
                 continue
@@ -226,12 +228,12 @@ def get_regions_mask(mask_file):
 def get_regions_prodigal(fn):
     """Parse prodigal output"""
     regions = {}
-    with open(fn, "r") as f:
+    with open(fn) as f:
         for line in f:
             if line[:12] == "# Model Data":
                 continue
             if line[:15] == "# Sequence Data":
-                m = re.search('seqhdr="(\S+)"', line)
+                m = re.search(r'seqhdr="(\S+)"', line)
                 if m:
                     id_ = m.group(1)
                 regions[id_] = {}
@@ -314,8 +316,10 @@ def get_counts(predictions):
     return total
 
 
-def unite_main():
-    parser = argparse.ArgumentParser()
+def combine_main():
+    parser = argparse.ArgumentParser(
+        "MGnify gene caller combiner. This script will merge the gene called by prodigal and fraggenescan (in any order)"
+    )
     parser.add_argument("-n", "--name", action="store", dest="name", required=True, help="basename")
     parser.add_argument("-k", "--mask", action="store", dest="mask", required=False, help="Sequence mask file")
 
@@ -326,7 +330,21 @@ def unite_main():
     parser.add_argument("-d", "--fgs-out", action="store", dest="fgs_out", required=False, help="Stats out FGS")
     parser.add_argument("-e", "--fgs-ffn", action="store", dest="fgs_ffn", required=False, help="Stats ffn FGS")
     parser.add_argument("-f", "--fgs-faa", action="store", dest="fgs_faa", required=False, help="Stats faa FGS")
+
+    parser.add_argument(
+        "-p",
+        "--caller-priority",
+        action="store",
+        dest="caller_priority",
+        required=False,
+        choices=["prodigal_fgs", "fgs_prodigal"],
+        default="prodigal_fgs",
+        help="Caller priority.",
+    )
+
     parser.add_argument("-v", "--verbose", help="verbose output", dest="verbose", action="count", required=False)
+
+    parser.add_argument("--version", action="version", version=version("combined_gene_caller"))
 
     args = parser.parse_args()
 
@@ -342,10 +360,15 @@ def unite_main():
     summary = {}
     all_predictions = {}
     files = {}
-    caller_priority = ["fgs", "prodigal"]
+    caller_priority = []
+    if args.caller_priority:
+        caller_priority = args.caller_priority.split("_")
+    else:
+        caller_priority = ["prodigal", "fgs"]
+
+    logging.info(f"Caller priority: 1. {caller_priority[0]}, 2. {caller_priority[1]}")
 
     if args.prodigal_out:
-        caller_priority = ["prodigal", "fgs"]
         logging.info("Prodigal presented")
         logging.info("Getting Prodigal regions...")
         all_predictions["prodigal"] = get_regions_prodigal(args.prodigal_out)
@@ -392,4 +415,4 @@ def unite_main():
 
 
 if __name__ == "__main__":
-    unite_main()
+    combine_main()

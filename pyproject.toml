@@ -1,7 +1,42 @@
-[build-system]
-requires = [
-    "setuptools>=30.3.0",
+[project]
+name = "combined_gene_caller"
+readme = "README.md"
+authors = [
+  {name = "MGnify team", email = "metagenomics-help@ebi.ac.uk"},
 ]
+license = {file = "LICENSE"}
+keywords = ["bioinformatics", "gene", "metagenomics"]
+dynamic = ["version"]
+description = "Combined gene caller for MGnify pipeline, to combine predictions from FragGeneScan and Prodigal"
+
+dependencies = [
+    "biopython==1.81",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit==3.3.3",
+    "black==23.7.0",
+    "isort==5.12.0",
+    "bump-my-version==0.6.0",
+]
+test = [
+    "pytest-workflow==2.0.1",
+]
+
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+requires-python = ">=3.9"
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools.dynamic]
+version = {attr = "combined_gene_caller.__version__"}
+
+[project.scripts]
+combined_gene_caller = "combined_gene_caller.cli:combine_main"
 
 [tool.ruff.per-file-ignores]
 "ci/*" = ["S"]
@@ -15,29 +50,8 @@ ignore = [
     "E501", # pycodestyle line-too-long
 ]
 line-length = 140
-select = [
-    "B", # flake8-bugbear
-    "C4", # flake8-comprehensions
-    "DTZ", # flake8-datetimez
-    "E", # pycodestyle errors
-    "EXE", # flake8-executable
-    "F", # pyflakes
-    "I", # isort
-    "INT", # flake8-gettext
-    "PIE", # flake8-pie
-    "PLC", # pylint convention
-    "PLE", # pylint errors
-    "PT", # flake8-pytest-style
-    "PTH", # flake8-use-pathlib
-    "Q", # flake8-quotes
-    "RSE", # flake8-raise
-    "RUF", # ruff-specific rules
-    "S", # flake8-bandit
-    "UP", # pyupgrade
-    "W", # pycodestyle warnings
-]
 src = ["src", "tests"]
-target-version = "py37"
+target-version = "py39"
 
 [tool.ruff.flake8-pytest-style]
 fixture-parentheses = false
@@ -49,4 +63,13 @@ force-single-line = true
 
 [tool.black]
 line-length = 140
-target-version = ["py37"]
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+
+[tool.bumpversion]
+current_version = "1.0.0"
+
+[[tool.bumpversion.files]]
+filename = "combined_gene_caller/__init__.py"

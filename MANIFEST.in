@@ -10,7 +10,6 @@ include .editorconfig
 include .github/workflows/github-actions.yml
 include .pre-commit-config.yaml
 include pytest.ini
-include tox.ini
 
 include AUTHORS.rst
 include CHANGELOG.rst

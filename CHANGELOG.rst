@@ -2,7 +2,7 @@
 Changelog
 =========
 
-0.1.0 (2023-07-22)
+1.0.0 (2023-07-22)
 ------------------
 
-* First release on PyPI.
+* Ported from https://github.com/EBI-Metagenomics/pipeline-v5 as a stand alone repo
