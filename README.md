@@ -1,5 +1,7 @@
 # Overview
 
+[![Testing](https://github.com/EBI-Metagenomics/combined-gene-caller/actions/workflows/test.yml/badge.svg)](https://github.com/EBI-Metagenomics/combined-gene-caller/actions/workflows/test.yml)
+
 Combined gene caller for MGnify pipeline, to combine predictions of Prodigal and FragGeneScan.
 
 -   Free software: Apache Software License 2.0
