@@ -4,10 +4,16 @@ readme = "README.md"
 authors = [
   {name = "MGnify team", email = "metagenomics-help@ebi.ac.uk"},
 ]
-license = {file = "LICENSE"}
+license = "Apache Software License 2.0 (Apache-2.0)"
 keywords = ["bioinformatics", "gene", "metagenomics"]
 dynamic = ["version"]
 description = "Combined gene caller for MGnify pipeline, to combine predictions from FragGeneScan and Prodigal"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License 2.0 (Apache-2.0)",
+    "Operating System :: OS Independent",
+]
 
 dependencies = [
     "biopython==1.81",
@@ -27,10 +33,9 @@ test = [
 [build-system]
 requires = ["setuptools>=61.0.0"]
 build-backend = "setuptools.build_meta"
-requires-python = ">=3.9"
 
-[tool.setuptools.packages]
-find = {}
+[tool.setuptools.packages.find]
+exclude = ["tests/*"]
 
 [tool.setuptools.dynamic]
 version = {attr = "combined_gene_caller.__version__"}
