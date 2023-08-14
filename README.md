@@ -2,6 +2,7 @@
 
 [![Testing](https://github.com/EBI-Metagenomics/combined-gene-caller/actions/workflows/test.yml/badge.svg)](https://github.com/EBI-Metagenomics/combined-gene-caller/actions/workflows/test.yml)
 [![Docker Repository on Quay](https://quay.io/repository/microbiome-informatics/combined-gene-caller/status "Docker Repository on Quay")](https://quay.io/repository/microbiome-informatics/combined-gene-caller)
+[![PyPI version](https://badge.fury.io/py/combined-gene-caller.svg)](https://badge.fury.io/py/combined-gene-caller)
 
 Combined gene caller for MGnify pipeline, to combine predictions of Prodigal and FragGeneScan.
 
