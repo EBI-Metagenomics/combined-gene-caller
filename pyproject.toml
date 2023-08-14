@@ -4,7 +4,7 @@ readme = "README.md"
 authors = [
   {name = "MGnify team", email = "metagenomics-help@ebi.ac.uk"},
 ]
-license = "Apache Software License 2.0 (Apache-2.0)"
+license = "Apache Software License 2.0"
 keywords = ["bioinformatics", "gene", "metagenomics"]
 dynamic = ["version"]
 description = "Combined gene caller for MGnify pipeline, to combine predictions from FragGeneScan and Prodigal"
