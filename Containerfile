@@ -1,9 +1,15 @@
-FROM python:3.9-slim
+FROM mambaorg/micromamba:1.5.10-noble
 
-WORKDIR /combined_gene_caller
+COPY --chown=$MAMBA_USER:$MAMBA_USER conda.yml /tmp/conda.yml
 
-COPY . .
+RUN micromamba install -y -n base -f /tmp/conda.yml \
+    && micromamba install -y -n base conda-forge::procps-ng \
+    && micromamba env export --name base --explicit > environment.lock \
+    && echo ">> CONDA_LOCK_START" \
+    && cat environment.lock \
+    && echo "<< CONDA_LOCK_END" \
+    && micromamba clean -a -y
 
-RUN pip install --no-cache .
+USER root
 
-CMD [ "combined_gene_caller" ]
+ENV PATH="$MAMBA_ROOT_PREFIX/bin:$PATH"

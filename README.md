@@ -11,7 +11,7 @@ Combined gene caller for MGnify pipeline, to combine predictions of Prodigal and
 ## Installation
 
 ```bash
-pip install https://github.com/ebi-metagenomics/combined-gene-caller/archive/main.zip
+pip install combined-gene-caller
 ```
 
 ## Usage
