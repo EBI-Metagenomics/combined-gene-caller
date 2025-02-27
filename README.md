@@ -1,5 +1,8 @@
 # Overview
 
+> [!IMPORTANT]  
+> This repo has been deprecated, the main script used to merge the anotations from Prodigal and FragGeneScan has been moved [here](https://github.com/EBI-Metagenomics/mgnify-pipelines-toolkit)
+
 [![Testing](https://github.com/EBI-Metagenomics/combined-gene-caller/actions/workflows/test.yml/badge.svg)](https://github.com/EBI-Metagenomics/combined-gene-caller/actions/workflows/test.yml)
 [![Docker Repository on Quay](https://quay.io/repository/microbiome-informatics/combined-gene-caller/status "Docker Repository on Quay")](https://quay.io/repository/microbiome-informatics/combined-gene-caller)
 [![PyPI version](https://badge.fury.io/py/combined-gene-caller.svg)](https://badge.fury.io/py/combined-gene-caller)
